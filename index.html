@@ -3,827 +3,344 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Happy Birthday Vivi</title>
+  <title>Registration</title>
 
-  <!-- Google Fonts -->
+  <!-- Google Fonts: Titan One Restored -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;600&family=Sacramento&family=Sriracha&family=Titan+One&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Titan+One&family=Dancing+Script:wght@600;700&family=Sriracha&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
 
-  <style>
-    /* ================= GLOBAL RESET & BASE ================= */
-    *, *::after, *::before {
-      padding: 0;
-      margin: 0;
-      box-sizing: border-box;
-    }
-
-    :root {
-      --dark-color: #000;
-      --flower-blue: #a7ffee;
-      --flower-white: #fff;
-    }
-
-    body {
-      background-color: var(--dark-color);
-      min-height: 100vh;
-      overflow-x: hidden;
-      font-family: 'Poppins', sans-serif;
-      transition: background-color 1s ease;
-    }
-
-    body.birthday-active {
-      background: #ffe3e8;
-      overflow-y: auto;
-    }
-
-    /* ================= ORIGINAL FLOWER ANIMATION CSS ================= */
-    .flower-wrapper {
-      position: fixed;
-      inset: 0;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      z-index: 1;
-      overflow: hidden;
-    }
-
-    .night {
-      position: fixed;
-      left: 50%;
-      top: 0;
-      transform: translateX(-50%);
-      width: 100%;
-      height: 100%;
-      filter: blur(0.1vmin);
-      background-image: radial-gradient(ellipse at top, transparent 0%, var(--dark-color)), radial-gradient(ellipse at bottom, var(--dark-color), rgba(145, 233, 255, 0.2)), repeating-linear-gradient(220deg, rgb(0, 0, 0) 0px, rgb(0, 0, 0) 19px, transparent 19px, transparent 22px);
-    }
-
-    .flowers {
-      position: relative;
-      transform: scale(0.9);
-      bottom: 2vmin;
-    }
-
-    .flower {
-      position: absolute;
-      bottom: 10vmin;
-      transform-origin: bottom center;
-      z-index: 10;
-      --fl-speed: 0.8s;
-    }
-
-    .flower--1 { left: 5vmin; transform: rotate(10deg); animation: moving-flower-1 4s ease-in-out infinite; }
-    .flower--2 { left: -5vmin; transform: rotate(-15deg); animation: moving-flower-2 4s ease-in-out infinite; }
-    .flower--3 { left: 0; transform: rotate(0deg); animation: moving-flower-3 4s ease-in-out infinite; }
-
-    .flower__line {
-      height: 55vmin;
-      width: 1.5vmin;
-      background-image: linear-gradient(to left, rgba(0, 0, 0, 0.2), transparent, rgba(255, 255, 255, 0.2)), linear-gradient(to top, transparent 10%, #14757a, #39c6d6);
-      box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.5);
-      animation: grow-flower-tree 4s backwards;
-    }
-
-    .flower__line__leaf {
-      --w: 7vmin;
-      --h: calc(var(--w) + 2vmin);
-      position: absolute;
-      top: 20%;
-      left: 90%;
-      width: var(--w);
-      height: var(--h);
-      border-top-right-radius: var(--h);
-      border-bottom-left-radius: var(--h);
-      background-image: linear-gradient(to top, rgba(20, 117, 122, 0.4), #39c6d6);
-    }
-
-    .flower__line__leaf--1 { transform: rotate(70deg) rotateY(30deg); }
-    .flower__line__leaf--2 { top: 45%; transform: rotate(70deg) rotateY(30deg); }
-    .flower__line__leaf--3, .flower__line__leaf--4, .flower__line__leaf--6 {
-      border-top-right-radius: 0;
-      border-bottom-left-radius: 0;
-      border-top-left-radius: var(--h);
-      border-bottom-right-radius: var(--h);
-      left: -460%;
-      top: 12%;
-      transform: rotate(-70deg) rotateY(30deg);
-    }
-    .flower__line__leaf--4 { top: 40%; }
-    .flower__line__leaf--5 { top: 0; transform-origin: left; transform: rotate(70deg) rotateY(30deg) scale(0.6); }
-    .flower__line__leaf--6 { top: -2%; left: -450%; transform-origin: right; transform: rotate(-70deg) rotateY(30deg) scale(0.6); }
-
-    .flower__leafs {
-      position: relative;
-      animation: blooming-flower 2s 0.8s backwards;
-    }
-
-    .flower__leaf {
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      width: 8vmin;
-      height: 11vmin;
-      border-radius: 51% 49% 47% 53% / 44% 45% 55% 56%;
-      background-color: var(--flower-blue);
-      background-image: linear-gradient(to top, #54b8aa, #a7ffee);
-      transform-origin: bottom center;
-      opacity: 0.9;
-      box-shadow: inset 0 0 2vmin rgba(255, 255, 255, 0.5);
-    }
-
-    .flower__leaf--1 { transform: translate(-10%, 1%) rotateY(40deg) rotateX(-50deg); }
-    .flower__leaf--2 { transform: translate(-50%, -4%) rotateX(40deg); }
-    .flower__leaf--3 { transform: translate(-90%, 0%) rotateY(45deg) rotateX(50deg); }
-    .flower__leaf--4 { width: 8vmin; height: 8vmin; transform-origin: bottom left; border-radius: 4vmin 10vmin 4vmin 4vmin; transform: translate(0%, 18%) rotateX(70deg) rotate(-43deg); background-image: linear-gradient(to top, #39c6d6, #a7ffee); z-index: 1; opacity: 0.8; }
-
-    .flower__white-circle {
-      position: absolute;
-      left: -3.5vmin;
-      top: -3vmin;
-      width: 9vmin;
-      height: 4vmin;
-      border-radius: 50%;
-      background-color: var(--flower-white);
-    }
-
-    .flower__light {
-      position: absolute;
-      bottom: 0;
-      width: 1vmin;
-      height: 1vmin;
-      background-color: rgb(255, 251, 214);
-      border-radius: 50%;
-      filter: blur(0.2vmin);
-      animation: light-ans 4s linear infinite backwards;
-    }
-
-    .flower__light--1 { left: -2vmin; transform: translateY(-5vmin); }
-    .flower__light--2 { left: 3vmin; transform: translateY(-7vmin); animation-delay: 1s; }
-    .flower__light--3 { left: -1vmin; transform: translateY(-11vmin); animation-delay: 0.5s; }
-    .flower__light--4 { left: 4vmin; transform: translateY(-13vmin); animation-delay: 1.5s; }
-    .flower__light--5 { left: -3vmin; transform: translateY(-16vmin); animation-delay: 2s; }
-    .flower__light--6 { left: 2vmin; transform: translateY(-19vmin); animation-delay: 3s; }
-    .flower__light--7 { left: -2vmin; transform: translateY(-22vmin); animation-delay: 2.2s; }
-    .flower__light--8 { left: 3vmin; transform: translateY(-25vmin); animation-delay: 3.2s; }
-
-    .growing-grass, .grow-ans, .long-g {
-      animation: grow-ans-grass 2s var(--d, 0s) backwards;
-    }
-
-    .flower__grass {
-      position: absolute;
-      bottom: 12vmin;
-      left: -7vmin;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      z-index: 20;
-      transform-origin: bottom center;
-      transform: rotate(-48deg) rotateY(40deg);
-    }
-    .flower__grass--2 { left: 2vmin; bottom: 10vmin; transform: scale(-0.6, 0.6) rotate(35deg); opacity: 0.8; }
-
-    .flower__grass--top {
-      width: 7vmin;
-      height: 10vmin;
-      border-top-right-radius: 100%;
-      border-right: 1.5vmin solid #159faa;
-      transform-origin: bottom center;
-      transform: rotate(-18deg);
-    }
-
-    .flower__grass--bottom {
-      margin-top: -2px;
-      width: 1.5vmin;
-      height: 25vmin;
-      background-image: linear-gradient(to top, transparent, #159faa);
-    }
-
-    .flower__grass__leaf {
-      --size: 10vmin;
-      position: absolute;
-      width: calc(var(--size) * 2.1);
-      height: var(--size);
-      border-top-left-radius: var(--size);
-      border-top-right-radius: var(--size);
-      background-image: linear-gradient(to top, transparent, transparent 30%, #159faa);
-      z-index: 1;
-    }
-    .flower__grass__leaf--1 { top: -6%; left: 30%; --size: 6vmin; transform: rotate(-20deg); }
-    .flower__grass__leaf--2 { top: -5%; left: -110%; --size: 6vmin; transform: rotate(10deg); }
-    .flower__grass__leaf--3 { top: 5%; left: 60%; --size: 8vmin; transform: rotate(-18deg); }
-    .flower__grass__leaf--4 { top: 6%; left: -135%; --size: 8vmin; transform: rotate(2deg); }
-    .flower__grass__leaf--5 { top: 20%; left: 60%; --size: 10vmin; transform: rotate(-24deg); }
-    .flower__grass__leaf--6 { top: 22%; left: -180%; --size: 10vmin; transform: rotate(10deg); }
-    .flower__grass__leaf--7 { top: 39%; left: 70%; --size: 10vmin; transform: rotate(-10deg); }
-    .flower__grass__leaf--8 { top: 40%; left: -215%; --size: 11vmin; transform: rotate(10deg); }
-
-    .flower__g-long {
-      position: absolute;
-      bottom: 10vmin;
-      left: -3vmin;
-      transform-origin: bottom center;
-      transform: rotate(-30deg) rotateY(-20deg);
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-    }
-    .flower__g-long__top { width: 10vmin; height: 18vmin; border-top-right-radius: 100%; border-right: 1.2vmin solid #159faa; }
-    .flower__g-long__bottom { width: 1.2vmin; height: 38vmin; background-image: linear-gradient(to top, transparent 30%, #159faa); }
-
-    .long-g { position: absolute; bottom: 2vmin; left: -10vmin; transform-origin: bottom left; }
-    .long-g--1 { bottom: 0vmin; transform: scale(0.8) rotate(-5deg); }
-    .long-g--2 { left: 10vmin; bottom: 5vmin; transform: scale(0.7) rotate(15deg); }
-    .long-g--3 { left: 15vmin; bottom: 8vmin; transform: scale(0.6) rotate(-15deg); }
-    .long-g--4 { left: -18vmin; bottom: 5vmin; transform: scale(0.75) rotate(20deg); }
-    .long-g--5 { left: -25vmin; bottom: 3vmin; transform: scale(0.65) rotate(-20deg); }
-    .long-g--6 { left: 25vmin; bottom: 4vmin; transform: scale(0.8) rotate(35deg); }
-    .long-g--7 { left: 30vmin; bottom: 2vmin; transform: scale(0.55) rotate(-25deg); }
-
-    .leaf {
-      width: 15vmin;
-      height: 25vmin;
-      border-top-left-radius: 100%;
-      border-left: 2vmin solid #079097;
-      background-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.4) 60%);
-      transform-origin: bottom left;
-    }
-
-    @keyframes moving-flower-1 { 0%, 100% { transform: rotate(10deg); } 50% { transform: rotate(15deg); } }
-    @keyframes moving-flower-2 { 0%, 100% { transform: rotate(-15deg); } 50% { transform: rotate(-8deg); } }
-    @keyframes moving-flower-3 { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(5deg); } }
-    @keyframes blooming-flower { 0% { transform: scale(0); } }
-    @keyframes grow-flower-tree { 0% { height: 0; } }
-    @keyframes grow-ans-grass { 0% { transform: scale(0); } }
-    @keyframes light-ans {
-      0% { opacity: 0; transform: translateY(0vmin); }
-      25% { opacity: 1; transform: translateY(-5vmin) translateX(-2vmin); }
-      50% { opacity: 1; transform: translateY(-15vmin) translateX(2vmin); filter: blur(0.2vmin); }
-      75% { opacity: 0; transform: translateY(-20vmin) translateX(-2vmin); filter: blur(0.2vmin); }
-      100% { opacity: 0; }
-    }
-
-    /* ================= GLASSMORPHIC LOVE LOGIN PORTAL ================= */
-    .login-portal {
-      position: fixed;
-      inset: 0;
-      z-index: 999;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 1.2s ease-in-out, transform 1s ease-in-out;
-      transform: translateY(20px);
-    }
-
-    .login-portal.show {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translateY(0);
-    }
-
-    .login-box {
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border: 1.5px solid rgba(255, 255, 255, 0.25);
-      padding: 35px 30px;
-      border-radius: 25px;
-      box-shadow: 0 10px 40px rgba(255, 45, 117, 0.35);
-      text-align: center;
-      width: 320px;
-      max-width: 90vw;
-    }
-
-    /* Requested Custom Sacramento Header */
-    .login-box h1 {
-      font-family: 'Sacramento', cursive;
-      color: #ff2d75;
-      font-size: 45px;
-      font-weight: bold;
-      margin-bottom: 10px;
-      letter-spacing: 1px;
-      text-shadow: 0 0 12px rgba(255, 45, 117, 0.6);
-    }
-
-    .input-group {
-      margin-bottom: 15px;
-    }
-
-    .input-group input {
-      width: 100%;
-      padding: 13px 18px;
-      background: rgba(255, 255, 255, 0.15);
-      border: 1px solid rgba(255, 255, 255, 0.35);
-      border-radius: 25px;
-      outline: none;
-      color: #fff;
-      font-size: 15px;
-      text-align: center;
-      transition: 0.3s;
-    }
-
-    .input-group input:focus {
-      background: rgba(255, 255, 255, 0.25);
-      border-color: #ff2d75;
-      box-shadow: 0 0 10px rgba(255, 45, 117, 0.5);
-    }
-
-    .input-group input::placeholder {
-      color: rgba(255, 255, 255, 0.7);
-    }
-
-    .login-btn {
-      width: 100%;
-      padding: 12px;
-      border: none;
-      border-radius: 25px;
-      background: linear-gradient(45deg, #ff2d75, #ff75c3);
-      color: #fff;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: 0 4px 15px rgba(255, 45, 117, 0.4);
-      transition: transform 0.2s, box-shadow 0.2s;
-      margin-top: 5px;
-    }
-
-    .login-btn:hover {
-      transform: scale(1.03);
-      box-shadow: 0 6px 20px rgba(255, 45, 117, 0.7);
-    }
-
-    /* ================= SECTION 2: BIRTHDAY PAGE ================= */
-    #wrapper {
-      position: relative;
-      width: 100%;
-      min-height: 100vh;
-      background: #ffe3e8;
-      background-image: 
-        linear-gradient(rgba(255, 182, 193, 0.3) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 182, 193, 0.3) 1px, transparent 1px);
-      background-size: 35px 35px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 30px 15px;
-    }
-
-    .flag__birthday {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      pointer-events: none;
-      z-index: 5;
-    }
-
-    .content {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
-      gap: 50px;
-      max-width: 1100px;
-      width: 100%;
-      z-index: 10;
-    }
-
-    .left {
-      text-align: center;
-    }
-
-    .title h1.happy {
-      font-family: 'Titan One', cursive;
-      font-size: 70px;
-      color: #ffffff;
-      -webkit-text-stroke: 3px #333;
-      text-shadow: 4px 5px 0px #333;
-      line-height: 1.1;
-    }
-
-    .title h1.birthday {
-      font-family: 'Titan One', cursive;
-      font-size: 80px;
-      color: #ff6584;
-      -webkit-text-stroke: 3px #333;
-      text-shadow: 5px 6px 0px #333;
-      line-height: 1.1;
-    }
-
-    .title .hat img {
-      margin-top: -30px;
-      margin-bottom: 10px;
-      filter: drop-shadow(2px 4px 4px rgba(0,0,0,0.15));
-    }
-
-    #btn__letter {
-      margin-top: 15px;
-      background: #ff6584;
-      color: #fff;
-      border: 3px solid #333;
-      box-shadow: 3px 4px 0px #333;
-      padding: 12px 30px;
-      font-size: 18px;
-      font-weight: bold;
-      border-radius: 30px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    #btn__letter:hover {
-      transform: translate(-2px, -2px);
-      box-shadow: 5px 6px 0px #333;
-    }
-
-    .right {
-      position: relative;
-    }
-
-    .box__account {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .box__account .image {
-      width: 250px;
-      height: 250px;
-      border-radius: 50%;
-      border: 6px solid #333;
-      overflow: hidden;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-      background: #fff;
-    }
-
-    .box__account .image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .box__account .name {
-      margin-top: 15px;
-      background: #ff6584;
-      border: 3px solid #333;
-      color: #fff;
-      padding: 6px 20px;
-      border-radius: 20px;
-      font-weight: bold;
-      font-size: 18px;
-      box-shadow: 3px 3px 0px #333;
-    }
-
-    .balloon_one {
-      position: absolute;
-      top: -40px;
-      left: -40px;
-      animation: floatBalloon 3s ease-in-out infinite alternate;
-    }
-
-    .balloon_two {
-      position: absolute;
-      bottom: -10px;
-      right: -40px;
-      animation: floatBalloon 3.5s ease-in-out infinite alternate-reverse;
-    }
-
-    @keyframes floatBalloon {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(-15px); }
-    }
-
-    .cricle {
-      position: absolute;
-      top: -30px;
-      right: -20px;
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      background: #ff6584;
-      border: 2px solid #333;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-      color: #fff;
-    }
-
-    /* ================= SECTION 3: LETTER POPUP ================= */
-    .letter-modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.7);
-      z-index: 9999;
-      justify-content: center;
-      align-items: center;
-      backdrop-filter: blur(5px);
-    }
-
-    .letter-card {
-      background: #fff0f5;
-      border: 4px solid #ff2d75;
-      border-radius: 24px;
-      padding: 35px 25px;
-      width: 90%;
-      max-width: 440px;
-      text-align: center;
-      box-shadow: 0 15px 35px rgba(255, 45, 117, 0.4);
-      animation: popIn 0.35s ease;
-    }
-
-    @keyframes popIn {
-      from { transform: scale(0.7); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
-
-    .letter-card h2 {
-      font-family: 'Titan One', cursive;
-      color: #ff2d75;
-      font-size: 26px;
-      margin-bottom: 15px;
-    }
-
-    .letter-card p {
-      font-family: 'Sriracha', cursive;
-      color: #333;
-      font-size: 18px;
-      line-height: 1.7;
-    }
-
-    .close-letter-btn {
-      margin-top: 25px;
-      background: #ff2d75;
-      color: #fff;
-      border: none;
-      padding: 10px 28px;
-      font-size: 16px;
-      border-radius: 25px;
-      cursor: pointer;
-      font-weight: bold;
-      box-shadow: 0 4px 15px rgba(255, 45, 117, 0.4);
-    }
-  </style>
-
-  <!-- Floating Heart Cursor -->
+  <!-- Floating Heart Cursor Script -->
   <script type="text/javascript">
-    var colours = ['#ff3366', '#ff6699', '#ff33cc', '#ff99cc', '#ff66b2', '#ff0066']; 
-    var minisize = 16; var maxisize = 28; var hearts = 66; var over_or_under = "over"; 
-    var x = ox = 400; var y = oy = 300; var swide = 800; var shigh = 600; var sleft = sdown = 0;
-    var herz = []; var herzx = []; var herzy = []; var herzs = []; var kiss = false;
+  var colours = ['#ff3366', '#ff6699', '#ff33cc', '#ff99cc', '#ff66b2', '#ff0066']; 
+  var minisize = 16; var maxisize = 28; var hearts = 66; var over_or_under = "over"; 
+  var x = ox = 400; var y = oy = 300; var swide = 800; var shigh = 600; var sleft = sdown = 0;
+  var herz = []; var herzx = []; var herzy = []; var herzs = []; var kiss = false;
 
-    if (typeof('addRVLoadEvent') != 'function') function addRVLoadEvent(funky) {
-      var oldonload = window.onload;
-      if (typeof(oldonload) != 'function') window.onload = funky;
-      else window.onload = function() { if (oldonload) oldonload(); funky(); }
-    }
+  if (typeof('addRVLoadEvent') != 'function') function addRVLoadEvent(funky) {
+    var oldonload = window.onload;
+    if (typeof(oldonload) != 'function') window.onload = funky;
+    else window.onload = function() { if (oldonload) oldonload(); funky(); }
+  }
 
-    addRVLoadEvent(mwah);
+  addRVLoadEvent(mwah);
 
-    function mwah() { if (document.getElementById) {
-      var i, heart;
-      for (i = 0; i < hearts; i++) {
-        heart = createDiv("auto", "auto");
-        heart.style.visibility = "hidden";
-        heart.style.zIndex = (over_or_under == "over") ? "10001" : "0";
-        heart.style.color = colours[i % colours.length];
-        heart.style.pointerEvents = "none";
-        heart.style.opacity = 0.75;
-        heart.appendChild(document.createTextNode(String.fromCharCode(9829)));
-        document.body.appendChild(heart);
-        herz[i] = heart;
-        herzy[i] = false;
-      }
-      set_scroll(); set_width(); herzle();
-    }}
-
-    function herzle() {
-      var c;
-      if (Math.abs(x - ox) > 1 || Math.abs(y - oy) > 1) {
-        ox = x; oy = y;
-        for (c = 0; c < hearts; c++) if (herzy[c] === false) {
-          herz[c].firstChild.nodeValue = String.fromCharCode(9829);
-          herz[c].style.left = (herzx[c] = x - minisize / 2) + "px";
-          herz[c].style.top = (herzy[c] = y - minisize) + "px";
-          herz[c].style.fontSize = minisize + "px";
-          herz[c].style.visibility = 'visible';
-          herzs[c] = minisize;
-          break;
-        }
-      }
-      for (c = 0; c < hearts; c++) if (herzy[c] !== false) blow_me_a_kiss(c);
-      setTimeout(herzle, 40);
-    }
-
-    document.onmousedown = pucker;
-    document.onmouseup = function() { clearTimeout(kiss); };
-    function pucker() { ox = -1; oy = -1; kiss = setTimeout(pucker, 100); }
-
-    function blow_me_a_kiss(i) {
-      herzy[i] -= herzs[i] / minisize + i % 2;
-      herzx[i] += (i % 5 - 2) / 5;
-      if (herzy[i] < sdown - herzs[i] || herzx[i] < sleft - herzs[i] || herzx[i] > sleft + swide - herzs[i]) {
-        herz[i].style.visibility = "hidden"; herzy[i] = false;
-      }
-      else if (herzs[i] > minisize + 2 && Math.random() < .5 / hearts) break_my_heart(i);
-      else {
-        if (Math.random() < maxisize / herzy[i] && herzs[i] < maxisize) herz[i].style.fontSize = (++herzs[i]) + "px";
-        herz[i].style.top = herzy[i] + "px"; herz[i].style.left = herzx[i] + "px";
-      }
-    }
-
-    function break_my_heart(i) {
-      herz[i].firstChild.nodeValue = String.fromCharCode(9676);
+  function mwah() { if (document.getElementById) {
+    var i, heart;
+    for (i = 0; i < hearts; i++) {
+      heart = createDiv("auto", "auto");
+      heart.style.visibility = "hidden";
+      heart.style.zIndex = (over_or_under == "over") ? "1001" : "0";
+      heart.style.color = colours[i % colours.length];
+      heart.style.pointerEvents = "none";
+      heart.style.opacity = 0.75;
+      heart.appendChild(document.createTextNode(String.fromCharCode(9829)));
+      document.body.appendChild(heart);
+      herz[i] = heart;
       herzy[i] = false;
-      setTimeout(() => herz[i].style.visibility = "hidden", 400);
     }
+    set_scroll(); set_width(); herzle();
+  }}
 
-    document.onmousemove = mouse;
-    function mouse(e) {
-      if (e) { y = e.pageY; x = e.pageX; }
-      else { set_scroll(); y = event.y + sdown; x = event.x + sleft; }
+  function herzle() {
+    var c;
+    if (Math.abs(x - ox) > 1 || Math.abs(y - oy) > 1) {
+      ox = x; oy = y;
+      for (c = 0; c < hearts; c++) if (herzy[c] === false) {
+        herz[c].firstChild.nodeValue = String.fromCharCode(9829);
+        herz[c].style.left = (herzx[c] = x - minisize / 2) + "px";
+        herz[c].style.top = (herzy[c] = y - minisize) + "px";
+        herz[c].style.fontSize = minisize + "px";
+        herz[c].style.visibility = 'visible';
+        herzs[c] = minisize;
+        break;
+      }
     }
+    for (c = 0; c < hearts; c++) if (herzy[c] !== false) blow_me_a_kiss(c);
+    setTimeout(herzle, 40);
+  }
 
-    window.onresize = set_width;
-    function set_width() {
-      swide = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-      shigh = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-    }
+  document.onmousedown = pucker;
+  document.onmouseup = function() { clearTimeout(kiss); };
+  function pucker() { ox = -1; oy = -1; kiss = setTimeout(pucker, 100); }
 
-    window.onscroll = set_scroll;
-    function set_scroll() {
-      sdown = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-      sleft = window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft || 0;
+  function blow_me_a_kiss(i) {
+    herzy[i] -= herzs[i] / minisize + i % 2;
+    herzx[i] += (i % 5 - 2) / 5;
+    if (herzy[i] < sdown - herzs[i] || herzx[i] < sleft - herzs[i] || herzx[i] > sleft + swide - herzs[i]) {
+      herz[i].style.visibility = "hidden"; herzy[i] = false;
     }
+    else if (herzs[i] > minisize + 2 && Math.random() < .5 / hearts) break_my_heart(i);
+    else {
+      if (Math.random() < maxisize / herzy[i] && herzs[i] < maxisize) herz[i].style.fontSize = (++herzs[i]) + "px";
+      herz[i].style.top = herzy[i] + "px"; herz[i].style.left = herzx[i] + "px";
+    }
+  }
 
-    function createDiv(height, width) {
-      var div = document.createElement("div");
-      div.style.position = "absolute"; div.style.height = height; div.style.width = width;
-      div.style.overflow = "hidden"; div.style.backgroundColor = "transparent";
-      return div;
-    }
+  function break_my_heart(i) {
+    herz[i].firstChild.nodeValue = String.fromCharCode(9676);
+    herzy[i] = false;
+    setTimeout(() => herz[i].style.visibility = "hidden", 400);
+  }
+
+  document.onmousemove = mouse;
+  function mouse(e) {
+    if (e) { y = e.pageY; x = e.pageX; }
+    else { set_scroll(); y = event.y + sdown; x = event.x + sleft; }
+  }
+
+  window.onresize = set_width;
+  function set_width() {
+    swide = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    shigh = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+  }
+
+  window.onscroll = set_scroll;
+  function set_scroll() {
+    sdown = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    sleft = window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft || 0;
+  }
+
+  function createDiv(height, width) {
+    var div = document.createElement("div");
+    div.style.position = "absolute"; div.style.height = height; div.style.width = width;
+    div.style.overflow = "hidden"; div.style.backgroundColor = "transparent";
+    return div;
+  }
   </script>
 </head>
 
-<body>
+<body class="login-active">
 
-  <!-- Background Music -->
+  <!-- Background Audio Element -->
   <audio id="bgMusic" loop preload="auto">
     <source src="./videoplayback.m4a" type="audio/mp4">
     <source src="./videoplayback.m4a" type="audio/m4a">
   </audio>
 
-  <!-- ================= SECTION 1: FLOWER & LOVE LOGIN OVERLAY ================= -->
+  <!-- ================= SECTION 1: FLOWER & LOVE REGISTRATION ================= -->
   <div id="firstSection">
-    
-    <!-- Original Flower Animation -->
-    <div class="flower-wrapper">
-      <div class="night"></div>
-      <div class="flowers">
-        <!-- Flower 1 -->
-        <div class="flower flower--1">
-          <div class="flower__leafs">
-            <div class="flower__leaf flower__leaf--1"></div>
-            <div class="flower__leaf flower__leaf--2"></div>
-            <div class="flower__leaf flower__leaf--3"></div>
-            <div class="flower__leaf flower__leaf--4"></div>
-            <div class="flower__white-circle"></div>
-            <div class="flower__light flower__light--1"></div>
-            <div class="flower__light flower__light--2"></div>
-            <div class="flower__light flower__light--3"></div>
-            <div class="flower__light flower__light--4"></div>
-            <div class="flower__light flower__light--5"></div>
-            <div class="flower__light flower__light--6"></div>
-            <div class="flower__light flower__light--7"></div>
-            <div class="flower__light flower__light--8"></div>
-          </div>
-          <div class="flower__line">
-            <div class="flower__line__leaf flower__line__leaf--1"></div>
-            <div class="flower__line__leaf flower__line__leaf--2"></div>
-            <div class="flower__line__leaf flower__line__leaf--3"></div>
-            <div class="flower__line__leaf flower__line__leaf--4"></div>
-            <div class="flower__line__leaf flower__line__leaf--5"></div>
-            <div class="flower__line__leaf flower__line__leaf--6"></div>
-          </div>
-        </div>
-
-        <!-- Flower 2 -->
-        <div class="flower flower--2">
-          <div class="flower__leafs">
-            <div class="flower__leaf flower__leaf--1"></div>
-            <div class="flower__leaf flower__leaf--2"></div>
-            <div class="flower__leaf flower__leaf--3"></div>
-            <div class="flower__leaf flower__leaf--4"></div>
-            <div class="flower__white-circle"></div>
-            <div class="flower__light flower__light--1"></div>
-            <div class="flower__light flower__light--2"></div>
-            <div class="flower__light flower__light--3"></div>
-            <div class="flower__light flower__light--4"></div>
-            <div class="flower__light flower__light--5"></div>
-            <div class="flower__light flower__light--6"></div>
-            <div class="flower__light flower__light--7"></div>
-            <div class="flower__light flower__light--8"></div>
-          </div>
-          <div class="flower__line">
-            <div class="flower__line__leaf flower__line__leaf--1"></div>
-            <div class="flower__line__leaf flower__line__leaf--2"></div>
-            <div class="flower__line__leaf flower__line__leaf--3"></div>
-            <div class="flower__line__leaf flower__line__leaf--4"></div>
-          </div>
-        </div>
-
-        <!-- Flower 3 -->
-        <div class="flower flower--3">
-          <div class="flower__leafs">
-            <div class="flower__leaf flower__leaf--1"></div>
-            <div class="flower__leaf flower__leaf--2"></div>
-            <div class="flower__leaf flower__leaf--3"></div>
-            <div class="flower__leaf flower__leaf--4"></div>
-            <div class="flower__white-circle"></div>
-            <div class="flower__light flower__light--1"></div>
-            <div class="flower__light flower__light--2"></div>
-            <div class="flower__light flower__light--3"></div>
-            <div class="flower__light flower__light--4"></div>
-            <div class="flower__light flower__light--5"></div>
-            <div class="flower__light flower__light--6"></div>
-            <div class="flower__light flower__light--7"></div>
-            <div class="flower__light flower__light--8"></div>
-          </div>
-          <div class="flower__line">
-            <div class="flower__line__leaf flower__line__leaf--1"></div>
-            <div class="flower__line__leaf flower__line__leaf--2"></div>
-            <div class="flower__line__leaf flower__line__leaf--3"></div>
-            <div class="flower__line__leaf flower__line__leaf--4"></div>
-          </div>
-        </div>
-
-        <div class="grow-ans" style="--d:1.2s">
-          <div class="flower__g-long">
-            <div class="flower__g-long__top"></div>
-            <div class="flower__g-long__bottom"></div>
-          </div>
-        </div>
-
-        <div class="growing-grass">
-          <div class="flower__grass flower__grass--1">
-            <div class="flower__grass--top"></div>
-            <div class="flower__grass--bottom"></div>
-            <div class="flower__grass__leaf flower__grass__leaf--1"></div>
-            <div class="flower__grass__leaf flower__grass__leaf--2"></div>
-            <div class="flower__grass__leaf flower__grass__leaf--3"></div>
-            <div class="flower__grass__leaf flower__grass__leaf--4"></div>
-            <div class="flower__grass__leaf flower__grass__leaf--5"></div>
-            <div class="flower__grass__leaf flower__grass__leaf--6"></div>
-            <div class="flower__grass__leaf flower__grass__leaf--7"></div>
-            <div class="flower__grass__leaf flower__grass__leaf--8"></div>
-          </div>
-        </div>
-
-        <div class="growing-grass">
-          <div class="flower__grass flower__grass--2">
-            <div class="flower__grass--top"></div>
-            <div class="flower__grass--bottom"></div>
-            <div class="flower__grass__leaf flower__grass__leaf--1"></div>
-            <div class="flower__grass__leaf flower__grass__leaf--2"></div>
-            <div class="flower__grass__leaf flower__grass__leaf--3"></div>
-            <div class="flower__grass__leaf flower__grass__leaf--4"></div>
-            <div class="flower__grass__leaf flower__grass__leaf--5"></div>
-            <div class="flower__grass__leaf flower__grass__leaf--6"></div>
-            <div class="flower__grass__leaf flower__grass__leaf--7"></div>
-            <div class="flower__grass__leaf flower__grass__leaf--8"></div>
-          </div>
-        </div>
-
-        <div class="long-g long-g--0"><div class="grow-ans" style="--d:3s"><div class="leaf"></div></div></div>
-        <div class="long-g long-g--1"><div class="grow-ans" style="--d:3.6s"><div class="leaf"></div></div></div>
-        <div class="long-g long-g--2"><div class="grow-ans" style="--d:4s"><div class="leaf"></div></div></div>
-        <div class="long-g long-g--3"><div class="grow-ans" style="--d:4.2s"><div class="leaf"></div></div></div>
-        <div class="long-g long-g--4"><div class="grow-ans" style="--d:4s"><div class="leaf"></div></div></div>
-        <div class="long-g long-g--5"><div class="grow-ans" style="--d:4.2s"><div class="leaf"></div></div></div>
-        <div class="long-g long-g--6"><div class="grow-ans" style="--d:4.4s"><div class="leaf"></div></div></div>
-        <div class="long-g long-g--7"><div class="grow-ans" style="--d:3.4s"><div class="leaf"></div></div></div>
+    <div id="loginPage" class="login-page">
+      <div class="login-box">
+        <h1 class="unique-love-title">
+          <span>🕊️</span>
+          <span>B'DAY REGISTRATION</span>
+          <span>💗🐾</span>
+        </h1>
+        <input type="text" id="username" placeholder="Your Name">
+        <input type="password" id="password" placeholder="Password">
+        <button id="loginBtn">LOGIN 😻</button>
+        <p id="errorMsg" style="color: #ff3366; margin-top: 12px; font-weight: bold; font-size: 14px; display: none;"></p>
       </div>
     </div>
 
-    <!-- Glassmorphic Love Login Overlay -->
-    <div id="loginPortal" class="login-portal">
-      <div class="login-box">
-        <h1>Love Login ❤️</h1>
-        <div class="input-group">
-          <input type="text" id="username" placeholder="Your Name" autocomplete="off">
+    <div class="night"></div>
+    <div class="flowers">
+      <div class="flower flower--1">
+        <div class="flower__leafs flower__leafs--1">
+          <div class="flower__leaf flower__leaf--1"></div>
+          <div class="flower__leaf flower__leaf--2"></div>
+          <div class="flower__leaf flower__leaf--3"></div>
+          <div class="flower__leaf flower__leaf--4"></div>
+          <div class="flower__white-circle"></div>
+          <div class="flower__light flower__light--1"></div>
+          <div class="flower__light flower__light--2"></div>
+          <div class="flower__light flower__light--3"></div>
+          <div class="flower__light flower__light--4"></div>
+          <div class="flower__light flower__light--5"></div>
+          <div class="flower__light flower__light--6"></div>
+          <div class="flower__light flower__light--7"></div>
+          <div class="flower__light flower__light--8"></div>
         </div>
-        <div class="input-group">
-          <input type="password" id="password" placeholder="Password">
+        <div class="flower__line">
+          <div class="flower__line__leaf flower__line__leaf--1"></div>
+          <div class="flower__line__leaf flower__line__leaf--2"></div>
+          <div class="flower__line__leaf flower__line__leaf--3"></div>
+          <div class="flower__line__leaf flower__line__leaf--4"></div>
+          <div class="flower__line__leaf flower__line__leaf--5"></div>
+          <div class="flower__line__leaf flower__line__leaf--6"></div>
         </div>
-        <button id="loginBtn" class="login-btn">LOGIN 😻</button>
-        <p id="errorMsg" style="color: #ff4d79; margin-top: 12px; font-weight: bold; font-size: 13px; display: none;"></p>
+      </div>
+
+      <div class="flower flower--2">
+        <div class="flower__leafs flower__leafs--2">
+          <div class="flower__leaf flower__leaf--1"></div>
+          <div class="flower__leaf flower__leaf--2"></div>
+          <div class="flower__leaf flower__leaf--3"></div>
+          <div class="flower__leaf flower__leaf--4"></div>
+          <div class="flower__white-circle"></div>
+          <div class="flower__light flower__light--1"></div>
+          <div class="flower__light flower__light--2"></div>
+          <div class="flower__light flower__light--3"></div>
+          <div class="flower__light flower__light--4"></div>
+          <div class="flower__light flower__light--5"></div>
+          <div class="flower__light flower__light--6"></div>
+          <div class="flower__light flower__light--7"></div>
+          <div class="flower__light flower__light--8"></div>
+        </div>
+        <div class="flower__line">
+          <div class="flower__line__leaf flower__line__leaf--1"></div>
+          <div class="flower__line__leaf flower__line__leaf--2"></div>
+          <div class="flower__line__leaf flower__line__leaf--3"></div>
+          <div class="flower__line__leaf flower__line__leaf--4"></div>
+        </div>
+      </div>
+
+      <div class="flower flower--3">
+        <div class="flower__leafs flower__leafs--3">
+          <div class="flower__leaf flower__leaf--1"></div>
+          <div class="flower__leaf flower__leaf--2"></div>
+          <div class="flower__leaf flower__leaf--3"></div>
+          <div class="flower__leaf flower__leaf--4"></div>
+          <div class="flower__white-circle"></div>
+          <div class="flower__light flower__light--1"></div>
+          <div class="flower__light flower__light--2"></div>
+          <div class="flower__light flower__light--3"></div>
+          <div class="flower__light flower__light--4"></div>
+          <div class="flower__light flower__light--5"></div>
+          <div class="flower__light flower__light--6"></div>
+          <div class="flower__light flower__light--7"></div>
+          <div class="flower__light flower__light--8"></div>
+        </div>
+        <div class="flower__line">
+          <div class="flower__line__leaf flower__line__leaf--1"></div>
+          <div class="flower__line__leaf flower__line__leaf--2"></div>
+          <div class="flower__line__leaf flower__line__leaf--3"></div>
+          <div class="flower__line__leaf flower__line__leaf--4"></div>
+        </div>
+      </div>
+
+      <div class="grow-ans" style="--d:1.2s">
+        <div class="flower__g-long">
+          <div class="flower__g-long__top"></div>
+          <div class="flower__g-long__bottom"></div>
+        </div>
+      </div>
+
+      <div class="growing-grass">
+        <div class="flower__grass flower__grass--1">
+          <div class="flower__grass--top"></div>
+          <div class="flower__grass--bottom"></div>
+          <div class="flower__grass__leaf flower__grass__leaf--1"></div>
+          <div class="flower__grass__leaf flower__grass__leaf--2"></div>
+          <div class="flower__grass__leaf flower__grass__leaf--3"></div>
+          <div class="flower__grass__leaf flower__grass__leaf--4"></div>
+          <div class="flower__grass__leaf flower__grass__leaf--5"></div>
+          <div class="flower__grass__leaf flower__grass__leaf--6"></div>
+          <div class="flower__grass__leaf flower__grass__leaf--7"></div>
+          <div class="flower__grass__leaf flower__grass__leaf--8"></div>
+          <div class="flower__grass__overlay"></div>
+        </div>
+      </div>
+
+      <div class="growing-grass">
+        <div class="flower__grass flower__grass--2">
+          <div class="flower__grass--top"></div>
+          <div class="flower__grass--bottom"></div>
+          <div class="flower__grass__leaf flower__grass__leaf--1"></div>
+          <div class="flower__grass__leaf flower__grass__leaf--2"></div>
+          <div class="flower__grass__leaf flower__grass__leaf--3"></div>
+          <div class="flower__grass__leaf flower__grass__leaf--4"></div>
+          <div class="flower__grass__leaf flower__grass__leaf--5"></div>
+          <div class="flower__grass__leaf flower__grass__leaf--6"></div>
+          <div class="flower__grass__leaf flower__grass__leaf--7"></div>
+          <div class="flower__grass__leaf flower__grass__leaf--8"></div>
+          <div class="flower__grass__overlay"></div>
+        </div>
+      </div>
+
+      <div class="grow-ans" style="--d:2.4s">
+        <div class="flower__g-right flower__g-right--1"><div class="leaf"></div></div>
+      </div>
+      <div class="grow-ans" style="--d:2.8s">
+        <div class="flower__g-right flower__g-right--2"><div class="leaf"></div></div>
+      </div>
+
+      <div class="grow-ans" style="--d:2.8s">
+        <div class="flower__g-front">
+          <div class="flower__g-front__leaf-wrapper flower__g-front__leaf-wrapper--1"><div class="flower__g-front__leaf"></div></div>
+          <div class="flower__g-front__leaf-wrapper flower__g-front__leaf-wrapper--2"><div class="flower__g-front__leaf"></div></div>
+          <div class="flower__g-front__leaf-wrapper flower__g-front__leaf-wrapper--3"><div class="flower__g-front__leaf"></div></div>
+          <div class="flower__g-front__leaf-wrapper flower__g-front__leaf-wrapper--4"><div class="flower__g-front__leaf"></div></div>
+          <div class="flower__g-front__leaf-wrapper flower__g-front__leaf-wrapper--5"><div class="flower__g-front__leaf"></div></div>
+          <div class="flower__g-front__leaf-wrapper flower__g-front__leaf-wrapper--6"><div class="flower__g-front__leaf"></div></div>
+          <div class="flower__g-front__leaf-wrapper flower__g-front__leaf-wrapper--7"><div class="flower__g-front__leaf"></div></div>
+          <div class="flower__g-front__leaf-wrapper flower__g-front__leaf-wrapper--8"><div class="flower__g-front__leaf"></div></div>
+          <div class="flower__g-front__line"></div>
+        </div>
+      </div>
+
+      <div class="grow-ans" style="--d:3.2s">
+        <div class="flower__g-fr">
+          <div class="leaf"></div>
+          <div class="flower__g-fr__leaf flower__g-fr__leaf--1"></div>
+          <div class="flower__g-fr__leaf flower__g-fr__leaf--2"></div>
+          <div class="flower__g-fr__leaf flower__g-fr__leaf--3"></div>
+          <div class="flower__g-fr__leaf flower__g-fr__leaf--4"></div>
+          <div class="flower__g-fr__leaf flower__g-fr__leaf--5"></div>
+          <div class="flower__g-fr__leaf flower__g-fr__leaf--6"></div>
+          <div class="flower__g-fr__leaf flower__g-fr__leaf--7"></div>
+          <div class="flower__g-fr__leaf flower__g-fr__leaf--8"></div>
+        </div>
+      </div>
+
+      <div class="long-g long-g--0">
+        <div class="grow-ans" style="--d:3s"><div class="leaf leaf--0"></div></div>
+        <div class="grow-ans" style="--d:2.2s"><div class="leaf leaf--1"></div></div>
+        <div class="grow-ans" style="--d:3.4s"><div class="leaf leaf--2"></div></div>
+        <div class="grow-ans" style="--d:3.6s"><div class="leaf leaf--3"></div></div>
+      </div>
+
+      <div class="long-g long-g--1">
+        <div class="grow-ans" style="--d:3.6s"><div class="leaf leaf--0"></div></div>
+        <div class="grow-ans" style="--d:3.8s"><div class="leaf leaf--1"></div></div>
+        <div class="grow-ans" style="--d:4s"><div class="leaf leaf--2"></div></div>
+        <div class="grow-ans" style="--d:4.2s"><div class="leaf leaf--3"></div></div>
+      </div>
+
+      <div class="long-g long-g--2">
+        <div class="grow-ans" style="--d:4s"><div class="leaf leaf--0"></div></div>
+        <div class="grow-ans" style="--d:4.2s"><div class="leaf leaf--1"></div></div>
+        <div class="grow-ans" style="--d:4.4s"><div class="leaf leaf--2"></div></div>
+        <div class="grow-ans" style="--d:4.6s"><div class="leaf leaf--3"></div></div>
+      </div>
+
+      <div class="long-g long-g--3">
+        <div class="grow-ans" style="--d:4s"><div class="leaf leaf--0"></div></div>
+        <div class="grow-ans" style="--d:4.2s"><div class="leaf leaf--1"></div></div>
+        <div class="grow-ans" style="--d:3s"><div class="leaf leaf--2"></div></div>
+        <div class="grow-ans" style="--d:3.6s"><div class="leaf leaf--3"></div></div>
+      </div>
+
+      <div class="long-g long-g--4">
+        <div class="grow-ans" style="--d:4s"><div class="leaf leaf--0"></div></div>
+        <div class="grow-ans" style="--d:4.2s"><div class="leaf leaf--1"></div></div>
+        <div class="grow-ans" style="--d:3s"><div class="leaf leaf--2"></div></div>
+        <div class="grow-ans" style="--d:3.6s"><div class="leaf leaf--3"></div></div>
+      </div>
+
+      <div class="long-g long-g--5">
+        <div class="grow-ans" style="--d:4s"><div class="leaf leaf--0"></div></div>
+        <div class="grow-ans" style="--d:4.2s"><div class="leaf leaf--1"></div></div>
+        <div class="grow-ans" style="--d:3s"><div class="leaf leaf--2"></div></div>
+        <div class="grow-ans" style="--d:3.6s"><div class="leaf leaf--3"></div></div>
+      </div>
+
+      <div class="long-g long-g--6">
+        <div class="grow-ans" style="--d:4.2s"><div class="leaf leaf--0"></div></div>
+        <div class="grow-ans" style="--d:4.4s"><div class="leaf leaf--1"></div></div>
+        <div class="grow-ans" style="--d:4.6s"><div class="leaf leaf--2"></div></div>
+        <div class="grow-ans" style="--d:4.8s"><div class="leaf leaf--3"></div></div>
+      </div>
+
+      <div class="long-g long-g--7">
+        <div class="grow-ans" style="--d:3s"><div class="leaf leaf--0"></div></div>
+        <div class="grow-ans" style="--d:3.2s"><div class="leaf leaf--1"></div></div>
+        <div class="grow-ans" style="--d:3.5s"><div class="leaf leaf--2"></div></div>
+        <div class="grow-ans" style="--d:3.6s"><div class="leaf leaf--3"></div></div>
       </div>
     </div>
   </div>
@@ -831,111 +348,108 @@
   <!-- ================= SECTION 2: BIRTHDAY SURPRISE PAGE ================= -->
   <div id="wrapper" style="display: none;">
     <div class="flag__birthday">
-      <img src="./1.png" onerror="this.src='./images/1.png';" alt="flag" width="300" style="max-width: 40vw;">
-      <img src="./1.png" onerror="this.src='./images/1.png';" alt="flag" width="300" style="max-width: 40vw; transform: scaleX(-1);">
+      <img src="./1.png" onerror="this.src='./images/1.png';" alt="" width="350" class="flag__left">
+      <img src="./1.png" onerror="this.src='./images/1.png';" alt="" width="350" class="flag__right">
     </div>
 
     <div class="content">
       <div class="left">
         <div class="title">
-          <h1 class="happy">Happy</h1>
-          <h1 class="birthday">Birthday</h1>
+          <h1 class="happy">
+            <span style="--t: 1s;">H</span><span style="--t: 1.2s;">a</span><span style="--t: 1.4s;">p</span><span style="--t: 1.6s;">p</span><span style="--t: 1.8s;">y</span>
+          </h1>
+          <h1 class="birthday">
+            <span style="--t: 2s;">B</span><span style="--t: 2.2s;">i</span><span style="--t: 2.4s;">r</span><span style="--t: 2.6s;">t</span><span style="--t: 2.8s;">h</span><span style="--t: 3s;">d</span><span style="--t: 3.2s;">a</span><span style="--t: 3.4s;">y</span>
+          </h1>
           <div class="hat">
-            <img src="./hat.png" onerror="this.src='./images/hat.png';" alt="hat" width="120">
+            <img src="./hat.png" onerror="this.src='./images/hat.png';" alt="" width="130">
           </div>
         </div>
 
+        <div class="date__of__birth">
+          <span></span>
+        </div>
+
         <div class="btn">
-          <button id="btn__letter">Click here ✉️</button>
+          <button id="btn__letter">
+            Click here ✉️
+          </button>
         </div>
       </div>
 
       <div class="right">
         <div class="box__account">
           <div class="image">
-            <img src="./vivi.jpeg" onerror="this.src='./img.png';" alt="vivi photo">
+            <!-- Fixed Root Path for Circle Profile Photo -->
+            <img src="./vivi.jpeg" 
+                 onerror="this.src='./img.png';" 
+                 alt="vivi photo">
           </div>
           <div class="name">
             ❤️ <span id="displayName">vivi</span> ❤️
           </div>
           <div class="balloon_one">
-            <img width="90px" src="./balloon1.png" onerror="this.src='./images/balloon1.png';" alt="balloon">
+            <img width="100px" src="./balloon1.png" onerror="this.src='./images/balloon1.png';" alt="">
           </div>
           <div class="balloon_two">
-            <img width="90px" src="./balloon2.png" onerror="this.src='./images/balloon2.png';" alt="balloon">
+            <img width="100px" src="./balloon2.png" onerror="this.src='./images/balloon2.png';" alt="">
           </div>
         </div>
 
-        <div class="cricle">❤️</div>
+        <div class="cricle">
+          <div class="text__cricle">
+            <span style="--i: 1;">h</span><span style="--i: 2;">a</span><span style="--i: 3;">p</span><span style="--i: 4;">p</span><span style="--i: 5;">y</span><span style="--i: 6;">-</span>
+            <span style="--i: 7;">b</span><span style="--i: 8;">i</span><span style="--i: 9;">r</span><span style="--i: 10;">t</span><span style="--i: 11;">h</span><span style="--i: 12;">d</span><span style="--i: 13;">a</span><span style="--i: 14;">y</span><span style="--i: 15;">-</span>
+          </div>
+          ❤️
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- ================= SECTION 3: BIRTHDAY LETTER MODAL ================= -->
-  <div id="letterModal" class="letter-modal">
-    <div class="letter-card">
-      <h2>Happy Birthday Vivi! 🎂🎉</h2>
-      <p id="letterContent">
-        இனிய பிறந்தநாள் நல்வாழ்த்துகள் விவி! ✨<br>
-        உன்னுடைய எல்லா கனவுகளும் ஆசைகளும் நிறைவேறி, எப்போதுமே சிரித்த முகத்தோடு மகிழ்ச்சியாக இருக்க மனமார்ந்த வாழ்த்துகள்! 💖🐾
-      </p>
-      <button class="close-letter-btn" id="closeLetterBtn">Close 💖</button>
+    <!-- Extra Decor Elements -->
+    <div class="decorate_star star1" style="--t: 15s;"></div>
+    <div class="decorate_star star2" style="--t: 15.2s;"></div>
+    <div class="decorate_star star3" style="--t: 15.4s;"></div>
+    <div class="decorate_star star4" style="--t: 15.6s;"></div>
+    <div class="decorate_star star5" style="--t: 15.8s;"></div>
+
+    <div class="decorate_flower--one" style="--t: 15s;">
+      <img width="20" src="./decorate_flower.png" onerror="this.src='./images/decorate_flower.png';" alt="">
+    </div>
+    <div class="decorate_flower--two" style="--t: 15.3s;">
+      <img width="20" src="./decorate_flower.png" onerror="this.src='./images/decorate_flower.png';" alt="">
     </div>
   </div>
 
-  <!-- ================= APPLICATION SCRIPTS ================= -->
+  <!-- ================= LOGIN & NEXT PAGE LOGIC ================= -->
   <script>
-    // 1. Automatic Show Login Portal after Flower Animation Blooms (~5.5s)
-    window.addEventListener("load", function() {
-      setTimeout(function() {
-        const portal = document.getElementById("loginPortal");
-        if (portal) {
-          portal.classList.add("show");
-        }
-      }, 5500);
-    });
-
-    // 2. Love Login Validation
-    document.getElementById("loginBtn").addEventListener("click", handleLogin);
-    document.getElementById("password").addEventListener("keypress", function(e) {
-      if (e.key === "Enter") handleLogin();
-    });
-
-    function handleLogin() {
+    document.getElementById("loginBtn").addEventListener("click", function() {
       var user = document.getElementById("username").value.trim().toLowerCase();
       var pass = document.getElementById("password").value.trim().toLowerCase();
       var errorMsg = document.getElementById("errorMsg");
       var bgMusic = document.getElementById("bgMusic");
 
+      // Check username and password
       if (user === "vivi" && pass === "naai kutty") {
         errorMsg.style.display = "none";
-        
-        // Hide Section 1 (Flowers & Login)
+
+        // Hide Section 1 (Login & Flowers)
         document.getElementById("firstSection").style.display = "none";
-        document.body.classList.add("birthday-active");
+        document.body.classList.remove("login-active");
 
         // Show Section 2 (Birthday Page)
-        document.getElementById("wrapper").style.display = "flex";
+        document.getElementById("wrapper").style.display = "block";
 
-        // Play Music
+        // Play audio
         if (bgMusic) {
-          bgMusic.play().catch(function(err) {
-            console.log("Audio autoplay prevented:", err);
+          bgMusic.play().catch(function(e) {
+            console.log("Audio play error:", e);
           });
         }
       } else {
         errorMsg.innerText = "Username or Password thappu! Marubadiyum try pannunga 😿";
         errorMsg.style.display = "block";
       }
-    }
-
-    // 3. Birthday Letter Popup Handlers
-    document.getElementById("btn__letter").addEventListener("click", function() {
-      document.getElementById("letterModal").style.display = "flex";
-    });
-
-    document.getElementById("closeLetterBtn").addEventListener("click", function() {
-      document.getElementById("letterModal").style.display = "none";
     });
   </script>
 </body>
