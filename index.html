@@ -419,183 +419,38 @@
     <div class="decorate_flower--two" style="--t: 15.3s;">
       <img width="20" src="./decorate_flower.png" onerror="this.src='./images/decorate_flower.png';" alt="">
     </div>
-    <div class="decorate_flower--three" style="--t: 15.6s;">
-      <img width="20" src="./decorate_flower.png" onerror="this.src='./images/decorate_flower.png';" alt="">
-    </div>
-
-    <div class="decorate_bottom">
-      <img src="./decorate.png" onerror="this.src='./images/decorate.png';" alt="" width="100">
-    </div>
-    <div class="smiley__icon">
-      <img src="./smiley_icon.png" onerror="this.src='./images/smiley_icon.png';" alt="" width="100">
-    </div>
-
-    <!-- Letter Box With Second Image -->
-    <div class="box__letter">
-      <div class="letter__border">
-        <div class="letter">
-          <div class="title__letter"></div>
-          <div class="content__letter">
-            <div class="left">
-              <!-- Fixed Root Path for Envelope Letter Photo -->
-              <img id="heart__letter" 
-                   src="./vivi2.jpeg" 
-                   onerror="this.src='./heart_letter.png';" 
-                   alt="Photo 2" 
-                   style="width: 100%; max-height: 220px; object-fit: cover; border-radius: 15px; border: 3px solid var(--color-black);">
-
-              <img class="heart heart_1" style="--t: 0.2s" width="20" src="./heart.png" onerror="this.src='./images/heart.png';" alt="">
-              <img class="heart heart_2" style="--t: 0.4s" width="20" src="./heart.png" onerror="this.src='./images/heart.png';" alt="">
-              <img class="heart heart_3" style="--t: 0.6s" width="20" src="./heart.png" onerror="this.src='./images/heart.png';" alt="">
-              <img class="heart heart_4" style="--t: 0.8s" width="20" src="./heart.png" onerror="this.src='./images/heart.png';" alt="">
-            </div>
-            <div class="right">
-              <div class="love__img">
-                <img src="./love.png" onerror="this.src='./images/love.png';" alt="" width="220">
-              </div>
-              <div class="text__letter">
-                <p></p>
-              </div>
-              <img id="mewmew" width="80" src="./mewmew.gif" onerror="this.src='./images/mewmew.gif';" alt="">
-            </div>
-          </div>
-        </div>
-        <div class="close">
-          ❌
-        </div>
-      </div>
-    </div>
   </div>
 
+  <!-- ================= LOGIN LOGIC (vivi & naai kutty) ================= -->
   <script>
-    $(document).ready(function() {
-      let audio = document.getElementById("bgMusic");
+    document.getElementById("loginBtn").addEventListener("click", function() {
+      var user = document.getElementById("username").value.trim().toLowerCase();
+      var pass = document.getElementById("password").value.trim().toLowerCase();
+      var errorMsg = document.getElementById("errorMsg");
+      var bgMusic = document.getElementById("bgMusic");
 
-      function triggerAudio() {
-        if (audio && audio.paused) {
-          audio.play().catch(function(err) {
-            console.log("Autoplay restriction handoff");
+      // Check username and password
+      if (user === "vivi" && pass === "naai kutty") {
+        errorMsg.style.display = "none";
+        
+        // Hide Section 1 (Login & Flowers)
+        document.getElementById("firstSection").style.display = "none";
+        document.body.classList.remove("login-active");
+
+        // Show Section 2 (Birthday page)
+        document.getElementById("wrapper").style.display = "block";
+
+        // Play audio on successful login
+        if (bgMusic) {
+          bgMusic.play().catch(function(e) {
+            console.log("Audio play error:", e);
           });
         }
+      } else {
+        errorMsg.innerText = "Username or Password thappu! Marubadiyum try pannunga 😿";
+        errorMsg.style.display = "block";
       }
-
-      $(document).one("click keydown", function() {
-        triggerAudio();
-      });
-
-      function handleLogin() {
-        let uName = $("#username").val().trim();
-        let pWord = $("#password").val().trim();
-
-        if (uName === "vivi" && pWord === "24/10/04") {
-          $("#errorMsg").hide();
-          $("#displayName").text("vivi");
-
-          triggerAudio();
-
-          $("#firstSection").fadeOut(1000, function() {
-            $("body").removeClass("login-active");
-            $("#wrapper").fadeIn(1000, function() {
-              startBirthdayAnimations();
-            });
-          });
-        } else {
-          $("#errorMsg").text("Invalid Username or Password! ❌").fadeIn();
-        }
-      }
-
-      $("#loginBtn").on("click", function(e) {
-        e.preventDefault();
-        handleLogin();
-      });
-
-      $("#username, #password").on("keypress", function(e) {
-        if (e.which === 13) {
-          e.preventDefault();
-          handleLogin();
-        }
-      });
     });
-
-    function startBirthdayAnimations() {
-      let datetxt = "24/10/2026";
-      let datatxtletter = "You are a very special girl. Today, I wish you all the best, lots of health, and lots of joy. I always hope we will celebrate many more birthdays like this together. Happy birthday to you.💕";
-      let titleLetter = "To you";
-      let charArrDate = datetxt.split('');
-      let charArrDateLetter = datatxtletter.split('');
-      let charArrTitle = titleLetter.split('');
-      let currentIndex = 0;
-      let currentIndexLetter = 0;
-      let currentIndexTitle = 0;
-      let date__of__birth = document.querySelector(".date__of__birth span");
-      let text__letter = document.querySelector(".text__letter p");
-
-      setTimeout(function(){
-        let timeDatetxt = setInterval(function(){
-          if(currentIndex < charArrDate.length){
-            date__of__birth.textContent += charArrDate[currentIndex];
-            currentIndex++;
-          } else {
-            clearInterval(timeDatetxt);
-          }
-        }, 100)
-      }, 1000);
-
-      var intervalContent;
-      var intervalTitle;
-      $("#btn__letter").off("click").on("click", function(){
-        $(".box__letter").slideDown();
-        setTimeout(function(){
-          $(".letter__border").slideDown();
-        },1000);
-        setTimeout(function(){
-          intervalTitle = setInterval(function(){
-            if(currentIndexTitle < charArrTitle.length){
-              document.querySelector(".title__letter").textContent += charArrTitle[currentIndexTitle];
-              currentIndexTitle++;
-            } else {
-              clearInterval(intervalTitle);
-            }
-          },100);
-        },2000);
-        setTimeout(function(){
-          document.querySelector("#heart__letter").classList.add("animationOp");
-          document.querySelector(".love__img").classList.add("animationOp");
-          document.querySelector("#mewmew").classList.add("animationOp");
-        },2800);
-        setTimeout(function(){
-          document.querySelectorAll(".heart").forEach((item)=>{
-            item.classList.add("animation");
-          });
-        },3500);
-        setTimeout(function(){
-          intervalContent = setInterval(function(){
-            if(currentIndexLetter < charArrDateLetter.length){
-              text__letter.textContent += charArrDateLetter[currentIndexLetter];
-              currentIndexLetter++;
-            } else {
-              clearInterval(intervalContent);
-            }
-          },50);
-        },4000);
-      });
-
-      $(".close").off("click").on("click", function(){
-        clearInterval(intervalContent);
-        document.querySelector(".title__letter").textContent = "";
-        text__letter.textContent = "";
-        currentIndexLetter = 0;
-        currentIndexTitle = 0;
-        document.querySelector("#heart__letter").classList.remove("animationOp");
-        document.querySelector(".love__img").classList.remove("animationOp");
-        document.querySelector("#mewmew").classList.remove("animationOp");
-        document.querySelectorAll(".heart").forEach((item)=>{
-          item.classList.remove("animation");
-        });
-        $(".box__letter").slideUp();
-        $(".letter__border").slideUp();
-      });
-    }
   </script>
 </body>
 </html>
