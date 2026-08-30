@@ -5,13 +5,64 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Registration</title>
 
-  <!-- Google Fonts: Titan One Restored -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Titan+One&family=Dancing+Script:wght@600;700&family=Sriracha&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css">
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
+
+  <!-- Letter Modal Styles -->
+  <style>
+    .letter-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(4px);
+    }
+    .letter-card {
+      background: #fff0f5;
+      border: 3px solid #ff69b4;
+      border-radius: 20px;
+      padding: 30px;
+      width: 90%;
+      max-width: 450px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(255, 105, 180, 0.4);
+      position: relative;
+      animation: popIn 0.4s ease;
+    }
+    @keyframes popIn {
+      from { transform: scale(0.7); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .letter-card h2 {
+      font-family: 'Titan One', cursive;
+      color: #ff3366;
+      margin-bottom: 12px;
+    }
+    .letter-card p {
+      font-family: 'Sriracha', cursive;
+      color: #444;
+      font-size: 18px;
+      line-height: 1.6;
+    }
+    .close-letter-btn {
+      margin-top: 20px;
+      background: #ff3366;
+      color: #fff;
+      border: none;
+      padding: 10px 24px;
+      font-size: 15px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+  </style>
 
   <!-- Floating Heart Cursor Script -->
   <script type="text/javascript">
@@ -121,7 +172,7 @@
     <source src="./videoplayback.m4a" type="audio/m4a">
   </audio>
 
-  <!-- ================= SECTION 1: FLOWER & LOVE REGISTRATION ================= -->
+  <!-- ================= SECTION 1: FLOWER & LOGIN ================= -->
   <div id="firstSection">
     <div id="loginPage" class="login-page">
       <div class="login-box">
@@ -380,10 +431,7 @@
       <div class="right">
         <div class="box__account">
           <div class="image">
-            <!-- Fixed Root Path for Circle Profile Photo -->
-            <img src="./vivi.jpeg" 
-                 onerror="this.src='./img.png';" 
-                 alt="vivi photo">
+            <img src="./vivi.jpeg" onerror="this.src='./img.png';" alt="vivi photo">
           </div>
           <div class="name">
             ❤️ <span id="displayName">vivi</span> ❤️
@@ -421,35 +469,52 @@
     </div>
   </div>
 
-  <!-- ================= LOGIN LOGIC (vivi & naai kutty) ================= -->
+  <!-- ================= SECTION 3: BIRTHDAY LETTER POPUP ================= -->
+  <div id="letterModal" class="letter-modal">
+    <div class="letter-card">
+      <h2>Happy Birthday Vivi! 🎂🎉</h2>
+      <p id="letterContent">
+        இனிய பிறந்தநாள் நல்வாழ்த்துகள் விவி! ✨<br>
+        உன்னுடைய எல்லா கனவுகளும் ஆசைகளும் நிறைவேறி, எப்போதுமே சிரித்த முகத்தோடு மகிழ்ச்சியாக இருக்க மனமார்ந்த வாழ்த்துகள்! 💖🐾
+      </p>
+      <button class="close-letter-btn" id="closeLetterBtn">Close 💖</button>
+    </div>
+  </div>
+
+  <!-- ================= SCRIPTS ================= -->
   <script>
+    // 1. Login Logic
     document.getElementById("loginBtn").addEventListener("click", function() {
       var user = document.getElementById("username").value.trim().toLowerCase();
       var pass = document.getElementById("password").value.trim().toLowerCase();
       var errorMsg = document.getElementById("errorMsg");
       var bgMusic = document.getElementById("bgMusic");
 
-      // Check username and password
       if (user === "vivi" && pass === "naai kutty") {
         errorMsg.style.display = "none";
-        
-        // Hide Section 1 (Login & Flowers)
         document.getElementById("firstSection").style.display = "none";
         document.body.classList.remove("login-active");
-
-        // Show Section 2 (Birthday page)
         document.getElementById("wrapper").style.display = "block";
 
-        // Play audio on successful login
         if (bgMusic) {
           bgMusic.play().catch(function(e) {
-            console.log("Audio play error:", e);
+            console.log("Audio autoplay prevented:", e);
           });
         }
       } else {
         errorMsg.innerText = "Username or Password thappu! Marubadiyum try pannunga 😿";
         errorMsg.style.display = "block";
       }
+    });
+
+    // 2. Click Here Button Logic (Letter Pop-up)
+    document.getElementById("btn__letter").addEventListener("click", function() {
+      document.getElementById("letterModal").style.display = "flex";
+    });
+
+    // 3. Close Letter Logic
+    document.getElementById("closeLetterBtn").addEventListener("click", function() {
+      document.getElementById("letterModal").style.display = "none";
     });
   </script>
 </body>
